@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avivaa Finance | Personal Loan</title>
+<style>
+:root{--navy:#142653;--green:#149b37;--green-dark:#087c29;--muted:#777f91;--line:#e8eaf0;--bg:#f7f8fb}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--navy)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.topbar{height:76px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid #f0f1f5}
+.logo{font-weight:900;font-size:22px;letter-spacing:1px;color:var(--navy)}
+.logo span{color:var(--green)}
+.menu-btn{border:0;background:transparent;color:var(--navy);font-size:27px}
+main{max-width:760px;margin:0 auto;padding:22px 18px 42px}
+.page{display:none}.page.active{display:block}
+.hero{padding:30px 2px 12px}
+.eyebrow{color:var(--green);font-weight:800;font-size:13px;letter-spacing:.4px;margin:10px 0 24px}
+h1{font-size:clamp(36px,8vw,58px);line-height:1.08;margin:0 0 24px;letter-spacing:-1.5px;color:var(--navy)}
+h1 .green{color:var(--green)}
+.lead{font-size:18px;line-height:1.65;color:var(--muted);margin-bottom:30px}
+.btn{width:100%;border:0;border-radius:50px;padding:17px 20px;font-weight:800;font-size:16px}
+.btn-primary{background:var(--green);color:white;box-shadow:0 7px 15px #149b3722}
+.btn-primary:hover{background:var(--green-dark)}
+.btn-secondary{background:#fff;color:var(--navy);border:1px solid var(--line);margin-top:12px}
+.trust{display:flex;justify-content:space-between;gap:12px;margin-top:55px;font-size:14px;font-weight:700}
+.trust span{display:flex;align-items:center;gap:8px}.check{color:var(--green);font-size:22px}
+.card{background:#fff;border:1px solid #f0f1f5;border-radius:24px;padding:26px 21px;box-shadow:0 12px 40px #14265308}
+.auth{max-width:540px;margin:36px auto}
+.lock{font-size:30px;text-align:center;margin:6px 0 16px}
+h2{text-align:center;font-size:29px;margin:0 0 10px}
+.sub{text-align:center;color:var(--muted);line-height:1.5;margin:0 0 28px}
+label{display:block;font-size:12px;font-weight:800;letter-spacing:.8px;color:#7b8190;margin:18px 0 8px}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:14px 13px;background:#fff;color:var(--navy);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px #149b3718}
+textarea{min-height:85px;resize:vertical}
+.phone-wrap{display:flex;gap:8px}.country{width:70px;background:#f7f8fb;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:12px;font-weight:700}
+.password-wrap{display:flex;gap:8px}.password-wrap input{flex:1}.show-pass{border:1px solid var(--line);background:white;border-radius:12px;padding:0 12px}
+.linkbtn{border:0;background:transparent;color:var(--green-dark);font-weight:800;padding:18px 0 0;width:100%}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.full{grid-column:1/-1}
+.section-title{font-size:20px;font-weight:850;margin:8px 0 4px}
+.steps{display:flex;gap:7px;margin:0 0 22px}.step{height:5px;background:#e5e8ee;border-radius:9px;flex:1}.step.done{background:var(--green)}
+.notice{font-size:12px;line-height:1.5;color:#777f91;background:#f7f8fb;border-radius:10px;padding:11px;margin:15px 0}
+.inline-check{display:flex;gap:9px;align-items:flex-start;font-size:12px;line-height:1.5;color:var(--muted);margin:16px 0}.inline-check input{width:auto;margin-top:2px}
+.emi-result{background:#f0faf2;border:1px solid #d7f0dd;border-radius:16px;padding:18px;margin:18px 0}
+.emi-number{font-size:31px;font-weight:900;color:var(--green-dark);margin:5px 0}
+.summary-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #d9eddd;font-size:14px}.summary-row:last-child{border-bottom:0}
+.success-box{background:linear-gradient(135deg, #142653 0%, #0b1836 100%);color:white;text-align:center;border-radius:24px;padding:35px 20px;box-shadow:0 15px 35px rgba(20,38,83,0.2)}
+.success-badge{background:var(--green);color:white;font-weight:800;font-size:13px;padding:6px 16px;border-radius:50px;display:inline-block;margin-bottom:15px;letter-spacing:1px}
+.loan-id-card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:18px;margin:20px 0}
+.loan-id-num{font-size:26px;font-weight:900;color:#4ade80;letter-spacing:1px;margin-top:5px}
+.dropdown-menu{display:none;position:absolute;right:22px;top:70px;background:white;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.1);width:220px;z-index:100;overflow:hidden}
+.dropdown-menu.show{display:block}
+.dropdown-menu button{width:100%;padding:14px 18px;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);font-weight:700;color:var(--navy)}
+.dropdown-menu button:hover{background:var(--bg)}
+.hidden{display:none!important}
+.footer{text-align:center;color:#9298a6;font-size:12px;padding:0 18px 25px}
+.admin-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:18px;box-shadow:0 4px 12px rgba(0,0,0,0.05)}
+@media(max-width:540px){main{padding:16px 16px 32px}.hero{padding-top:26px}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.card{padding:23px 18px}.trust{font-size:12px;margin-top:42px}.lead{font-size:16px}.auth{margin-top:24px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="logo" aria-label="Avivaa Finance">▲ <span>AVIVAA</span></div>
+  <div style="position:relative;">
+    <button id="menuBtn" class="menu-btn hidden" aria-label="Menu" onclick="toggleMenu()">☰</button>
+    <div id="dropdownMenu" class="dropdown-menu">
+      <button onclick="showPage('userPersonalDetailsPage'); toggleMenu();">Personal Information</button>
+      <button onclick="showPage('walletPage'); toggleMenu();">Wallet</button>
+      <button onclick="showPage('emiInfoPage'); toggleMenu();">EMI Information</button>
+      <button onclick="signOut()" style="color:#dc2626;">Sign Out</button>
+    </div>
+  </div>
+</header>
+<main>
+  <!-- PAGE 1: HOME -->
+  <section id="homePage" class="page active">
+    <div class="hero">
+      <div class="eyebrow">↘ &nbsp; INTEREST RATES AS LOW AS 0.5%*</div>
+      <h1>Making Finance<br><span class="green">Accessible</span><br>to Everyone.</h1>
+      <p class="lead">Quick funds for your personal needs. Medical expenses, home renovation, education, or travel. Explore personal loan options with a simple application process.</p>
+      <button class="btn btn-primary" onclick="showPage('loginPage')">Get Started &nbsp; →</button>
+      <button class="btn btn-secondary" onclick="document.getElementById('learnMore').classList.toggle('hidden')">Learn More</button>
+      <p id="learnMore" class="notice hidden">Check the loan amount, tenure and estimated monthly instalment before submitting an application.</p>
+      <div class="trust"><span><b class="check">✓</b> Simple Process</span><span><b class="check">♧</b> Secure Process</span></div>
+    </div>
+  </section>
+
+  <!-- PAGE 2: LOGIN / CREATE ACCOUNT -->
+  <section id="loginPage" class="page">
+    <div class="card auth">
+      <div class="lock">♙</div>
+      <h2 id="authTitle">Welcome Back</h2>
+      <p class="sub" id="authSub">Sign in to access your account.</p>
+      <form id="loginForm">
+        <label for="mobile">MOBILE NUMBER *</label>
+        <div class="phone-wrap"><div class="country">+91</div><input id="mobile" type="tel" inputmode="numeric" maxlength="10" placeholder="Enter 10-digit number" required pattern="[0-9]{10}"></div>
+        <label for="password">PASSWORD *</label>
+        <div class="password-wrap"><input id="password" type="password" minlength="6" placeholder="Enter password" required><button class="show-pass" type="button" onclick="togglePassword()">◉</button></div>
+        <div id="confirmWrap" class="hidden"><label for="confirmPassword">CONFIRM PASSWORD *</label><input id="confirmPassword" type="password" minlength="6" placeholder="Re-enter password"></div>
+        <button class="btn btn-primary" style="margin-top:24px" id="authSubmit" type="submit">Sign In Secured &nbsp; ♧</button>
+      </form>
+      <button class="linkbtn" id="authSwitch" onclick="toggleAuthMode()">Don't have an account? Create Account</button>
+      <button class="linkbtn" style="color:#737b8c" onclick="showPage('homePage')">← Back to Home</button>
+    </div>
+  </section>
+
+  <!-- PAGE 3: COLORFUL AVIVAA OVERVIEW (SHOWN ON SIGN IN) -->
+  <section id="avivaaOverviewPage" class="page">
+    <div class="card" style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); border: 2px solid #86efac;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <span style="background: #10b981; color: white; padding: 6px 16px; border-radius: 50px; font-weight: 800; font-size: 13px; letter-spacing: 1px;">WELCOME TO AVIVAA</span>
+        <h2 style="color: #065f46; margin-top: 15px; font-size: 32px;">Avivaa Finance Overview</h2>
+        <p style="color: #047857; font-size: 15px; font-weight: 600;">Making Finance Accessible to Everyone with Trust & Transparency.</p>
+      </div>
+
+      <div class="emi-result" style="background: #ffffff; border: 1px solid #bbf7d0; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.1);">
+        <h3 style="color: #047857; margin-top: 0; font-size: 20px;">🌟 Key Features & Highlights</h3>
+        <ul style="padding-left: 20px; color: #1f2937; font-size: 15px; line-height: 1.8;">
+          <li><strong>🚀 Instant Loan Approvals:</strong> Fast credit checks and hassle-free document verification.</li>
+          <li><strong>💰 Low Interest Rates:</strong> Starting as low as <strong>0.5%* per month</strong> with flexible repayment options.</li>
+          <li><strong>🛡️ 100% Secure Process:</strong> Your personal data and financial records are fully encrypted and protected.</li>
+          <li><strong>📈 Flexible Tenure:</strong> Choose repayment tenures ranging from 12 to 42 months comfortably.</li>
+        </ul>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+        <div style="background: #ffffff; padding: 18px; border-radius: 16px; text-align: center; border: 1px solid #bbf7d0;">
+          <div style="font-size: 24px; font-weight: 900; color: #059669;">0.5%*</div>
+          <div style="font-size: 13px; color: #4b5563; font-weight: 700; margin-top: 5px;">Min Interest Rate</div>
+        </div>
+        <div style="background: #ffffff; padding: 18px; border-radius: 16px; text-align: center; border: 1px solid #bbf7d0;">
+          <div style="font-size: 24px; font-weight: 900; color: #059669;">42 Mos</div>
+          <div style="font-size: 13px; color: #4b5563; font-weight: 700; margin-top: 5px;">Max Tenure</div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="applyBtn" onclick="handleApplyClick()">Apply Now</button>
+      <button class="btn btn-secondary" onclick="signOut()" style="background: #fee2e2; color: #dc2626; border-color: #fca5a5;">Sign Out</button>
+    </div>
+  </section>
+
+  <!-- PAGE 4: PERSONAL INFORMATION FORM -->
+  <section id="personalPage" class="page">
+    <div class="card">
+      <div class="steps"><div class="step done"></div><div class="step"></div><div class="step"></div><div class="step"></div><div class="step"></div></div>
+      <h2>Personal Information</h2>
+      <p class="sub">Enter details as shown on your documents.</p>
+      <form id="personalForm">
+        <div class="section-title">Personal Details</div>
+        <div class="form-grid">
+          <div class="full"><label for="fullName">FULL NAME (AS PER DOCUMENT) *</label><input id="fullName" autocomplete="name" required placeholder="Enter full name"></div>
+          <div><label for="pan">PAN CARD NUMBER *</label><input id="pan" maxlength="10" required placeholder="ABCDE1234F" style="text-transform:uppercase"></div>
+          <div><label for="aadhaar">AADHAAR CARD NUMBER *</label><input id="aadhaar" inputmode="numeric" maxlength="12" pattern="[0-9]{12}" required placeholder="12-digit number"></div>
+          <div><label for="dob">DATE OF BIRTH *</label><input id="dob" type="date" required></div>
+          <div class="full"><label for="address">CURRENT ADDRESS *</label><textarea id="address" required placeholder="House / street, city, state, PIN code"></textarea></div>
+        </div>
+        <div class="section-title" style="margin-top:26px">Employee Details</div>
+        <div class="form-grid">
+          <div class="full"><label for="employment">EMPLOYMENT TYPE *</label><select id="employment" required><option value="">Select employment type</option><option>Self Employed / Business</option><option>Salaried</option><option>Freelance / Contractor</option></select></div>
+          <div><label for="company">COMPANY NAME *</label><input id="company" required placeholder="Enter company / business name"></div>
+          <div><label for="income">MONTHLY INCOME (₹) *</label><input id="income" type="number" min="0" required placeholder="e.g. 35000"></div>
+        </div>
+        <div class="section-title" style="margin-top:26px">Nominee Details</div>
+        <div class="form-grid">
+          <div class="full"><label for="nominee">NOMINEE FULL NAME *</label><input id="nominee" required placeholder="Enter nominee's full name"></div>
+          <div><label for="relationship">RELATIONSHIP *</label><select id="relationship" required><option value="">Select relationship</option><option>Spouse</option><option>Father</option><option>Mother</option><option>Son</option><option>Daughter</option><option>Sibling</option><option>Other</option></select></div>
+          <div><label for="nomineeMobile">NOMINEE MOBILE *</label><input id="nomineeMobile" inputmode="numeric" maxlength="10" pattern="[0-9]{10}" placeholder="10-digit number" required></div>
+        </div>
+        <label class="inline-check"><input type="checkbox" required><span>I confirm the details provided are accurate and understand this form.</span></label>
+        <button class="btn btn-primary" type="submit">Save & Continue to Bank Details →</button>
+        <button class="btn btn-secondary" type="button" onclick="showPage('avivaaOverviewPage')">← Back</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- PAGE 5: BANK DETAILS -->
+  <section id="bankPage" class="page">
+    <div class="card">
+      <div class="steps"><div class="step done"></div><div class="step done"></div><div class="step"></div><div class="step"></div><div class="step"></div></div>
+      <h2>Bank Details</h2>
+      <p class="sub">Enter your bank account details for loan disbursal.</p>
+      <form id="bankForm">
+        <div class="form-grid">
+          <div class="full"><label for="bankName">BANK NAME *</label><input id="bankName" required placeholder="e.g. State Bank of India, HDFC"></div>
+          <div class="full"><label for="accHolder">ACCOUNT HOLDER NAME *</label><input id="accHolder" required placeholder="Enter account holder name"></div>
+          <div class="full"><label for="accNo">ACCOUNT NUMBER *</label><input id="accNo" type="password" required placeholder="Enter bank account number"></div>
+          <div class="full"><label for="ifsc">IFSC CODE *</label><input id="ifsc" required placeholder="e.g. SBIN0001234" style="text-transform:uppercase"></div>
+          <div class="full"><label for="accType">ACCOUNT TYPE *</label><select id="accType" required><option value="">Select account type</option><option>Saving</option><option>Current</option></select></div>
+        </div>
+        <button class="btn btn-primary" style="margin-top:20px" type="submit">Continue to Loan Details →</button>
+        <button class="btn btn-secondary" type="button" onclick="showPage('personalPage')">← Back</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- PAGE 6: LOAN DETAILS / EMI CALCULATOR -->
+  <section id="loanPage" class="page">
+    <div class="card">
+      <div class="steps"><div class="step done"></div><div class="step done"></div><div class="step done"></div><div class="step"></div><div class="step"></div></div>
+      <h2>Loan Details</h2>
+      <p class="sub">Choose a loan amount and repayment period to see an estimate.</p>
+      <form id="loanForm">
+        <label for="loanAmount">LOAN AMOUNT *</label>
+        <select id="loanAmount" required>
+          <option value="100000">₹1,00,000</option><option value="150000">₹1,50,000</option><option value="200000">₹2,00,000</option><option value="250000">₹2,50,000</option><option value="300000">₹3,00,000</option><option value="350000">₹3,50,000</option><option value="400000">₹4,00,000</option><option value="450000">₹4,50,000</option><option value="500000">₹5,00,000</option>
+        </select>
+        <label for="tenure">REPAYMENT TENURE *</label>
+        <select id="tenure" required><option value="12">12 months</option><option value="18">18 months</option><option value="24">24 months</option><option value="36">36 months</option><option value="42">42 months</option></select>
+        <label for="interest">MONTHLY INTEREST RATE</label>
+        <select id="interest"><option value="1">1% per month</option></select>
+        <div class="emi-result" aria-live="polite">
+          <div>Estimated Monthly EMI</div><div class="emi-number" id="emi">₹0</div>
+          <div class="summary-row"><span>Loan Amount</span><strong id="sumAmount">₹0</strong></div>
+          <div class="summary-row"><span>Tenure</span><strong id="sumTenure">12 months</strong></div>
+          <div class="summary-row"><span>Interest Rate</span><strong>1% per month</strong></div>
+          <div class="summary-row"><span>Total Interest (estimate)</span><strong id="sumInterest">₹0</strong></div>
+          <div class="summary-row"><span>Total Repayment (estimate)</span><strong id="sumTotal">₹0</strong></div>
+        </div>
+        <button class="btn btn-primary" type="submit">Continue to Document Upload →</button>
+        <button class="btn btn-secondary" type="button" onclick="showPage('bankPage')">← Back</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- PAGE 7: DOCUMENT UPLOAD -->
+  <section id="docPage" class="page">
+    <div class="card">
+      <div class="steps"><div class="step done"></div><div class="step done"></div><div class="step done"></div><div class="step done"></div><div class="step done"></div></div>
+      <h2>Document Upload</h2>
+      <p class="sub">Please choose files from your gallery.</p>
+      <form id="docForm">
+        <div class="form-grid">
+          <div class="full">
+            <label for="aadhaarFront">APPLICANT AADHAAR FRONT SIDE *</label>
+            <input type="file" id="aadhaarFront" accept="image/*" required>
+          </div>
+          <div class="full">
+            <label for="aadhaarBack">APPLICANT AADHAAR BACK SIDE *</label>
+            <input type="file" id="aadhaarBack" accept="image/*" required>
+          </div>
+          <div class="full">
+            <label for="panDoc">APPLICANT PAN CARD *</label>
+            <input type="file" id="panDoc" accept="image/*" required>
+          </div>
+          <div class="full">
+            <label for="nomineePan">NOMINEE PAN CARD *</label>
+            <input type="file" id="nomineePan" accept="image/*" required>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="margin-top:20px" type="submit">Submit Application →</button>
+        <button class="btn btn-secondary" type="button" onclick="showPage('loanPage')">← Back</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- PAGE 8: SUCCESS / UNDERWRITING REVIEW -->
+  <section id="successPage" class="page">
+    <div class="success-box">
+      <div class="success-badge">AVIVAA FINANCE</div>
+      <h2 style="color: white; margin-bottom: 10px;">Application Under Review</h2>
+      <p style="color: #cbd5e1; font-size: 15px; line-height: 1.5; margin-bottom: 20px;">Your loan application and documents have been successfully submitted.</p>
+      
+      <div class="loan-id-card">
+        <div style="font-size: 13px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;">Generated Loan ID</div>
+        <div class="loan-id-num">AV-27251781</div>
+      </div>
+
+      <p style="color: #facc15; font-size: 14px; font-weight: 700; margin-bottom: 25px;">Status: APPROVAL PENDING</p>
+      
+      <button class="btn btn-primary" style="background: #10b981; color: white;" onclick="showPage('avivaaOverviewPage')">Go to Dashboard →</button>
+    </div>
+  </section>
+
+  <!-- MENU PAGE 1: USER'S SUBMITTED PERSONAL INFORMATION -->
+  <section id="userPersonalDetailsPage" class="page">
+    <div class="card">
+      <h2>Personal Information</h2>
+      <p class="sub">Your submitted details</p>
+      
+      <div class="section-title">Personal Details</div>
+      <div class="emi-result" style="margin-bottom:20px;">
+        <div class="summary-row"><span>Full Name</span><strong id="infoName">-</strong></div>
+        <div class="summary-row"><span>Mobile Number</span><strong id="infoMobile">-</strong></div>
+        <div class="summary-row"><span>PAN Card</span><strong id="infoPan">-</strong></div>
+        <div class="summary-row"><span>Aadhaar Card</span><strong id="infoAadhaar">-</strong></div>
+        <div class="summary-row"><span>Date of Birth</span><strong id="infoDob">-</strong></div>
+        <div class="summary-row"><span>Current Address</span><strong id="infoAddress">-</strong></div>
+      </div>
+
+      <div class="section-title">Employee & Nominee Details</div>
+      <div class="emi-result" style="margin-bottom:20px;">
+        <div class="summary-row"><span>Employment Type</span><strong id="infoEmployment">-</strong></div>
+        <div class="summary-row"><span>Company Name</span><strong id="infoCompany">-</strong></div>
+        <div class="summary-row"><span>Monthly Income</span><strong id="infoIncome">-</strong></div>
+        <div class="summary-row"><span>Nominee Name</span><strong id="infoNominee">-</strong></div>
+        <div class="summary-row"><span>Relationship</span><strong id="infoRelationship">-</strong></div>
+      </div>
+
+      <div class="section-title">Bank Details</div>
+      <div class="emi-result" style="margin-bottom:20px;">
+        <div class="summary-row"><span>Bank Name</span><strong id="infoBank">-</strong></div>
+        <div class="summary-row"><span>Account Holder</span><strong id="infoAccHolder">-</strong></div>
+        <div class="summary-row"><span>Account Number</span><strong id="infoAccNo">-</strong></div>
+        <div class="summary-row"><span>IFSC Code</span><strong id="infoIfsc">-</strong></div>
+        <div class="summary-row"><span>Account Type</span><strong id="infoAccType">-</strong></div>
+      </div>
+
+      <button class="btn btn-secondary" onclick="showPage('avivaaOverviewPage')">← Back to Dashboard</button>
+    </div>
+  </section>
+
+  <!-- MENU PAGE 2: WALLET -->
+  <section id="walletPage" class="page">
+    <div class="card auth">
+      <h2>Wallet</h2>
+      <div class="emi-result" style="text-align:center; margin-bottom:20px;">
+        <div style="font-size:14px; color:var(--muted)">Available Balance</div>
+        <div class="emi-number" id="walletBalance">₹0</div>
+      </div>
+      
+      <button class="btn btn-primary" onclick="handleFullWithdraw()">Full Withdraw</button>
+      
+      <div id="withdrawSection" class="hidden">
+        <div class="section-title" style="margin-top:30px;">Withdraw Details</div>
+        <div class="emi-result" style="margin-top:10px;">
+          <div class="summary-row"><span>Withdraw Amount</span><strong id="wAmount">₹0</strong></div>
+          <div class="summary-row"><span>Account Details</span><strong id="wAccDetails">-</strong></div>
+          <div class="summary-row"><span>Status</span><strong id="wStatus" style="color:#d97706;">Withdrawal Pending</strong></div>
+        </div>
+      </div>
+
+      <button class="btn btn-secondary" style="margin-top:10px;" onclick="showPage('avivaaOverviewPage')">← Back</button>
+    </div>
+  </section>
+
+  <!-- MENU PAGE 3: EMI INFORMATION -->
+  <section id="emiInfoPage" class="page">
+    <div class="card">
+      <h2>EMI Information</h2>
+      <p class="sub">Your active loan repayment overview.</p>
+      
+      <div class="emi-result" style="margin-bottom:20px;">
+        <div class="summary-row"><span>Loan ID</span><strong>AV-27251781</strong></div>
+        <div class="summary-row"><span>Loan Amount</span><strong id="emiLoanAmount">-</strong></div>
+        <div class="summary-row"><span>Tenure</span><strong id="emiTenure">-</strong></div>
+        <div class="summary-row"><span>Estimated Monthly EMI</span><strong id="emiMonthly">-</strong></div>
+        <div class="summary-row"><span>Total Repayment</span><strong id="emiTotal">-</strong></div>
+        <div class="summary-row"><span>Status</span><strong style="color:var(--green)">APPROVAL PENDING</strong></div>
+      </div>
+
+      <button class="btn btn-secondary" onclick="showPage('avivaaOverviewPage')">← Back to Dashboard</button>
+    </div>
+  </section>
+
+  <!-- PAGE 10: ADMIN LOGIN -->
+  <section id="adminLoginPage" class="page">
+    <div class="card auth">
+      <h2>Admin Login</h2>
+      <p class="sub">Enter admin credentials to manage applications.</p>
+      <form id="adminLoginForm">
+        <label for="adminUser">USERNAME</label>
+        <input type="text" id="adminUser" placeholder="Enter admin username" required>
+        <label for="adminPass">PASSWORD</label>
+        <input type="password" id="adminPass" placeholder="Enter password" required>
+        <button class="btn btn-primary" style="margin-top:20px;" type="submit">Login as Admin</button>
+      </form>
+      <button class="btn btn-secondary" style="margin-top:10px;" onclick="window.location.hash=''; showPage('homePage');">← Back to Home</button>
+    </div>
+  </section>
+
+  <!-- PAGE 11: ADMIN DASHBOARD -->
+  <section id="adminDashboardPage" class="page">
+    <div class="card" style="max-width:800px; margin:0 auto;">
+      <h2>Admin Control Panel</h2>
+      <p class="sub">View and edit user applications, wallet balance, and details.</p>
+      <div id="adminAppList" style="margin-bottom:20px;">
+        <!-- Dynamic applications list -->
+      </div>
+      <button class="btn btn-secondary" onclick="window.location.hash=''; showPage('homePage');">Admin Sign Out</button>
+    </div>
+  </section>
+</main>
+
+<div class="footer">© Avivaa Finance</div>
+
+<script>
+let currentLoggedInMobile = null;
+let createMode = false;
+
+let usersAccounts = JSON.parse(localStorage.getItem('avivaa_accounts') || '{}');
+let allApplications = JSON.parse(localStorage.getItem('avivaa_apps') || '[]');
+
+function money(n){
+  return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(n);
+}
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const target = document.getElementById(id);
+  if(target) target.classList.add('active');
+  if(id === 'walletPage'){
+    updateWalletUI();
+  }
+  if(id === 'userPersonalDetailsPage'){
+    loadUserDataToUI();
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function toggleMenu(){
+  document.getElementById('dropdownMenu').classList.toggle('show');
+}
+
+function togglePassword(){
+  const p=document.getElementById('password');
+  p.type=p.type==='password'?'text':'password';
+}
+
+function toggleAuthMode(){
+  createMode=!createMode;
+  document.getElementById('authTitle').textContent=createMode?'Create Account':'Welcome Back';
+  document.getElementById('authSub').textContent=createMode?'Create a new account.':'Sign in to access your account.';
+  document.getElementById('confirmWrap').classList.toggle('hidden',!createMode);
+  document.getElementById('confirmPassword').required=createMode;
+  document.getElementById('authSubmit').textContent=createMode?'Create Account':'Sign In Secured ♧';
+  document.getElementById('authSwitch').textContent=createMode?'Already have an account? Sign In':"Don't have an account? Create Account";
+}
+
+function checkRoute(){
+  if(window.location.hash === '#admin'){
+    showPage('adminLoginPage');
+  }
+}
+window.addEventListener('hashchange', checkRoute);
+window.addEventListener('load', checkRoute);
+
+document.getElementById('loginForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const mob = document.getElementById('mobile').value;
+  const pass = document.getElementById('password').value;
+
+  if(createMode){
+    if(pass !== document.getElementById('confirmPassword').value){
+      alert('Passwords do not match.');
+      return;
+    }
+    if(usersAccounts[mob]){
+      alert('An account with this mobile number already exists! Please Sign In.');
+      return;
+    }
+    usersAccounts[mob] = { password: pass, hasSubmitted: false };
+    localStorage.setItem('avivaa_accounts', JSON.stringify(usersAccounts));
+    currentLoggedInMobile = mob;
+    showPage('personalPage');
+  } else {
+    if(usersAccounts[mob] && usersAccounts[mob].password === pass){
+      currentLoggedInMobile = mob;
+      document.getElementById('menuBtn').classList.remove('hidden');
+      
+      const existingApp = allApplications.find(a => a.mobile === mob);
+      if(existingApp){
+        showPage('avivaaOverviewPage');
+      } else {
+        showPage('personalPage');
+      }
+    } else {
+      alert('Invalid mobile number or password, or account does not exist.');
+    }
+  }
+});
+
+document.getElementById('personalForm').addEventListener('submit', e => {
+  e.preventDefault();
+  showPage('bankPage');
+});
+
+document.getElementById('bankForm').addEventListener('submit', e => {
+  e.preventDefault();
+  showPage('loanPage');
+  updateEmiCalc();
+});
+
+function updateEmiCalc(){
+  const P = Number(document.getElementById('loanAmount').value);
+  const n = Number(document.getElementById('tenure').value);
+  const r = 0.01;
+  const emi = P * r * Math.pow(1+r, n) / (Math.pow(1+r, n) - 1);
+  const total = emi * n;
+  
+  document.getElementById('emi').textContent = money(emi);
+  document.getElementById('sumAmount').textContent = money(P);
+  document.getElementById('sumTenure').textContent = n + ' months';
+  document.getElementById('sumInterest').textContent = money(total - P);
+  document.getElementById('sumTotal').textContent = money(total);
+}
+
+document.getElementById('loanAmount').addEventListener('change', updateEmiCalc);
+document.getElementById('tenure').addEventListener('change', updateEmiCalc);
+
+document.getElementById('loanForm').addEventListener('submit', e => {
+  e.preventDefault();
+  updateEmiCalc();
+  showPage('docPage');
+});
+
+document.getElementById('docForm').addEventListener('submit', e => {
+  e.preventDefault();
+
+  const P = Number(document.getElementById('loanAmount').value);
+  const n = Number(document.getElementById('tenure').value);
+  const r = 0.01;
+  const emi = P * r * Math.pow(1+r, n) / (Math.pow(1+r, n) - 1);
+  const total = emi * n;
+
+  const newApp = {
+    mobile: currentLoggedInMobile,
+    id: 'AV-27251781',
+    name: document.getElementById('fullName').value,
+    pan: document.getElementById('pan').value,
+    aadhaar: document.getElementById('aadhaar').value,
+    dob: document.getElementById('dob').value,
+    address: document.getElementById('address').value,
+    employment: document.getElementById('employment').value,
+    company: document.getElementById('company').value,
+    income: document.getElementById('income').value,
+    nominee: document.getElementById('nominee').value,
+    relationship: document.getElementById('relationship').value,
+    nomineeMobile: document.getElementById('nomineeMobile').value,
+    bank: document.getElementById('bankName').value,
+    accHolder: document.getElementById('accHolder').value,
+    accNo: document.getElementById('accNo').value,
+    ifsc: document.getElementById('ifsc').value,
+    accType: document.getElementById('accType').value,
+    loanAmount: P,
+    tenure: n + ' months',
+    monthlyEmi: money(emi),
+    totalRepayment: money(total),
+    status: 'APPROVAL PENDING',
+    walletBalance: 0,
+    hasWithdrawn: false,
+    withdrawAmount: 0,
+    withdrawTime: null
+  };
+
+  allApplications = allApplications.filter(a => a.mobile !== currentLoggedInMobile);
+  allApplications.push(newApp);
+  localStorage.setItem('avivaa_apps', JSON.stringify(allApplications));
+
+  if(usersAccounts[currentLoggedInMobile]){
+    usersAccounts[currentLoggedInMobile].hasSubmitted = true;
+    localStorage.setItem('avivaa_accounts', JSON.stringify(usersAccounts));
+  }
+
+  document.getElementById('menuBtn').classList.remove('hidden');
+  showPage('successPage');
+});
+
+function handleApplyClick(){
+  const app = allApplications.find(a => a.mobile === currentLoggedInMobile);
+  if(app){
+    alert('Already Applied');
+  } else {
+    showPage('personalPage');
+  }
+}
+
+function loadUserDataToUI(){
+  const app = allApplications.find(a => a.mobile === currentLoggedInMobile);
+  if(!app) return;
+
+  document.getElementById('infoName').textContent = app.name || '-';
+  document.getElementById('infoMobile').textContent = app.mobile || '-';
+  document.getElementById('infoPan').textContent = app.pan || '-';
+  document.getElementById('infoAadhaar').textContent = app.aadhaar || '-';
+  document.getElementById('infoDob').textContent = app.dob || '-';
+  document.getElementById('infoAddress').textContent = app.address || '-';
+  document.getElementById('infoEmployment').textContent = app.employment || '-';
+  document.getElementById('infoCompany').textContent = app.company || '-';
+  document.getElementById('infoIncome').textContent = '₹' + (app.income || '0');
+  document.getElementById('infoNominee').textContent = app.nominee || '-';
+  document.getElementById('infoRelationship').textContent = app.relationship || '-';
+  
+  document.getElementById('infoBank').textContent = app.bank || '-';
+  document.getElementById('infoAccHolder').textContent = app.accHolder || '-';
+  document.getElementById('infoAccNo').textContent = app.accNo || '-';
+  document.getElementById('infoIfsc').textContent = app.ifsc || '-';
+  document.getElementById('infoAccType').textContent = app.accType || '-';
+
+  document.getElementById('emiLoanAmount').textContent = money(app.loanAmount || 0);
+  document.getElementById('emiTenure').textContent = app.tenure || '-';
+  document.getElementById('emiMonthly').textContent = app.monthlyEmi || '₹0';
+  document.getElementById('emiTotal').textContent = app.totalRepayment || '₹0';
+}
+
+function updateWalletUI(){
+  const app = allApplications.find(a => a.mobile === currentLoggedInMobile);
+  if(!app) return;
+
+  document.getElementById('walletBalance').textContent = money(app.walletBalance || 0);
+
+  const withdrawSec = document.getElementById('withdrawSection');
+  if(app.hasWithdrawn){
+    withdrawSec.classList.remove('hidden');
+    document.getElementById('wAmount').textContent = money(app.withdrawAmount || 0);
+    document.getElementById('wAccDetails').textContent = `${app.accHolder} | ${app.bank} | A/C: ${app.accNo} | IFSC: ${app.ifsc}`;
+
+    const st = document.getElementById('wStatus');
+    if(app.withdrawTime && (Date.now() - app.withdrawTime > 300000)){
+      st.textContent = 'Your withdrawal details incorrect please contact customer care support';
+      st.style.color = '#dc2626';
+    } else {
+      st.textContent = 'Withdrawal Pending';
+      st.style.color = '#d97706';
+    }
+  } else {
+    withdrawSec.classList.add('hidden');
+  }
+}
+
+function handleFullWithdraw(){
+  let apps = JSON.parse(localStorage.getItem('avivaa_apps') || '[]');
+  let app = apps.find(a => a.mobile === currentLoggedInMobile);
+  if(!app) return;
+
+  if((app.walletBalance || 0) <= 0){
+    alert('Wallet Balance is 0!');
+    return;
+  }
+
+  app.withdrawAmount = app.walletBalance;
+  app.walletBalance = 0;
+  app.hasWithdrawn = true;
+  app.withdrawTime = Date.now();
+
+  localStorage.setItem('avivaa_apps', JSON.stringify(apps));
+  allApplications = apps;
+
+  updateWalletUI();
+  alert('Full withdraw requested successfully!');
+}
+
+document.getElementById('adminLoginForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const u = document.getElementById('adminUser').value;
+  const p = document.getElementById('adminPass').value;
+  if(u === 'admin' && p === 'admin123'){
+    loadAdminDashboard();
+    showPage('adminDashboardPage');
+  } else {
+    alert('Invalid Admin Username or Password! (Use admin / admin123)');
+  }
+});
+
+function loadAdminDashboard(){
+  const container = document.getElementById('adminAppList');
+  let html = '';
+  const apps = JSON.parse(localStorage.getItem('avivaa_apps') || '[]');
+  if(apps.length === 0){
+    container.innerHTML = '<p class="sub">No applications found.</p>';
+    return;
+  }
+  apps.forEach((app, idx) => {
+    html += `<div class="admin-card">
+      <div style="font-weight:bold; font-size:16px; margin-bottom:10px;">Mobile: ${app.mobile} | Loan ID: ${app.id}</div>
+      
+      <label>Full Name</label>
+      <input type="text" id="edit_name_${idx}" value="${app.name || ''}">
+      
+      <label>PAN Card</label>
+      <input type="text" id="edit_pan_${idx}" value="${app.pan || ''}">
+      
+      <label>Aadhaar Card</label>
+      <input type="text" id="edit_aadhaar_${idx}" value="${app.aadhaar || ''}">
+      
+      <label>Bank Name</label>
+      <input type="text" id="edit_bank_${idx}" value="${app.bank || ''}">
+      
+      <label>Account Holder Name</label>
+      <input type="text" id="edit_accHolder_${idx}" value="${app.accHolder || ''}">
+      
+      <label>Account Number</label>
+      <input type="text" id="edit_accNo_${idx}" value="${app.accNo || ''}">
+      
+      <label>IFSC Code</label>
+      <input type="text" id="edit_ifsc_${idx}" value="${app.ifsc || ''}">
+      
+      <label>Loan Amount (₹)</label>
+      <input type="text" id="edit_loan_${idx}" value="${app.loanAmount || ''}">
+      
+      <label>Add Wallet Amount (₹)</label>
+      <input type="number" id="edit_wallet_${idx}" value="${app.walletBalance || 0}">
+      
+      <button class="btn btn-primary" style="margin-top:15px;" onclick="updateApp(${idx})">Save All Changes</button>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+function updateApp(idx){
+  let apps = JSON.parse(localStorage.getItem('avivaa_apps') || '[]');
+  
+  apps[idx].name = document.getElementById('edit_name_' + idx).value;
+  apps[idx].pan = document.getElementById('edit_pan_' + idx).value;
+  apps[idx].aadhaar = document.getElementById('edit_aadhaar_' + idx).value;
+  apps[idx].bank = document.getElementById('edit_bank_' + idx).value;
+  apps[idx].accHolder = document.getElementById('edit_accHolder_' + idx).value;
+  apps[idx].accNo = document.getElementById('edit_accNo_' + idx).value;
+  apps[idx].ifsc = document.getElementById('edit_ifsc_' + idx).value;
+  apps[idx].loanAmount = Number(document.getElementById('edit_loan_' + idx).value);
+  apps[idx].walletBalance = Number(document.getElementById('edit_wallet_' + idx).value);
+
+  localStorage.setItem('avivaa_apps', JSON.stringify(apps));
+  allApplications = apps;
+  alert('Application and wallet updated successfully!');
+  loadAdminDashboard();
+}
+
+function signOut(){
+  currentLoggedInMobile = null;
+  document.getElementById('menuBtn').classList.add('hidden');
+  document.getElementById('dropdownMenu').classList.remove('show');
+  document.getElementById('loginForm').reset();
+  showPage('loginPage');
+}
+</script>
+</body>
+</html>
